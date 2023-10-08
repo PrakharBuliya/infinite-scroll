@@ -1,15 +1,34 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useCallback, useEffect } from "react";
+
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(50);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        window.document.body.offsetHeight - 30
+      ) {
+        setCount(count + 50);
+      }
+    };
+    window.addEventListener("scroll", onscroll);
+
+    return () => window.addEventListener("scroll", onScroll);
+  });
+
+  const elements = [];
+
+  for (let i = 0; i < count; i++) {
+    elements.push(<div key={i}>{i + 1}</div>);
+  }
 
   return (
-    <div>
-      <h1>Infinite Scroll</h1>
-    </div>
+    <>
+      <main>{elements}</main>
+    </>
   );
 }
 
